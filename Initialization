@@ -1,0 +1,29 @@
+##-- On AWS Cli/Shell execute the following command to create an S3 bucket on us-east-1 region called data-lake-jcbb
+aws s3api create-bucket --bucket data-lake-jcbb --region us-east-1
+
+##-- When bucket/data-lake is created, modify policies to grant object write on data lake 
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "logs:CreateLogGroup",
+            "Resource": "arn:aws:logs:us-east-1:580816400750:*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:us-east-1:580816400750:log-group:/aws/lambda/hello-world-python:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::data-lake-jcbb/*"
+        }
+    ]
+}
